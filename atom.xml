@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[The Good Fit]]></title>
+  <link href="http://tech.omadahealth.com/atom.xml" rel="self"/>
+  <link href="http://tech.omadahealth.com/"/>
+  <updated>2013-04-02T07:54:37-07:00</updated>
+  <id>http://tech.omadahealth.com/</id>
+  <author>
+    <name><![CDATA[Omada Development Team]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+</feed>
