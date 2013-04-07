@@ -24,7 +24,7 @@ We render the template by calling `render 'contacts/new'`.
 Rather than specifying the object here, we're specifying the full route and leaving it to rails to work out the appropriate view calls.  
 I'm also using `response.body.should match(/regex/)` to check for particular text I'm expecting.
 
-
+``` ruby
     #this is spec/views/contacts_spec.rb
     require File.dirname(__FILE__) + '/../spec_helper.rb'
 
@@ -36,7 +36,7 @@ I'm also using `response.body.should match(/regex/)` to check for particular tex
       describe 'new page' do
 
         before do
-          @contact = Contact.create :name => \"John\"
+          @contact = Contact.create :name => "John"
           assigns[:contact] = @contact
         end
 
@@ -45,17 +45,17 @@ I'm also using `response.body.should match(/regex/)` to check for particular tex
           response
         end
 
-        it \"has a mailing address block\" do
-          action!.should have_tag(\"#mailing_address\")
+        it "has a mailing address block" do
+          action!.should have_tag("#mailing_address")
         end
 
-        it \"should not have a model number\" do
+        it "should not have a model number" do
           action!.body.should_not match(/model_id/)
         end
 
       end
     end
-
+```
 
 Rspec is able to check html as rendered by the system, but some tests require a series of coordinated user actions.
 
@@ -66,6 +66,7 @@ To check whether a sequence of user actions has the intended effect, there's now
 
 Webrat is Test::Unit based, but is getting strong support from Rspec maintainer David Chelimsky.  RubyConf 2008 will feature a demo of how to use Webrat with the new Story Runner in Rspec.  Until then, I've cobbled together a simple example of how to build webrat examples in Rspec:
 
+``` ruby
     #this file is spec/integration/contacts_spec.rb
     require File.dirname(__FILE__) + '/../spec_helper.rb'
     describe 'Contacts processing with webrat' do
@@ -73,11 +74,11 @@ Webrat is Test::Unit based, but is getting strong support from Rspec maintainer 
       describe 'create contact' do
         before(:all) do
           @webrat = ActionController::Integration::Session.new
-          jackie = User.find_by_login(\"jackie\")
-          unless jackie.has_role? \"admin\"
+          jackie = User.find_by_login("jackie")
+          unless jackie.has_role? "admin"
             Permission.create!(
                :user => jackie,
-               :role => Role.find_or_create_by_rolename(\"admin\")
+               :role => Role.find_or_create_by_rolename("admin")
             )
           end
         end
@@ -88,21 +89,21 @@ Webrat is Test::Unit based, but is getting strong support from Rspec maintainer 
         end
 
 
-        it \"can log in\" do
+        it "can log in" do
           @webrat.reset!
-          @webrat.visits \"/login\"
-          @webrat.fills_in \"login\", :with => \"jackie\"
-          @webrat.fills_in \"password\", :with => \"test\"
-          @webrat.checks \"remember_me\"
-          @webrat.clicks_button \"Log in\"
+          @webrat.visits "/login"
+          @webrat.fills_in "login", :with => "jackie"
+          @webrat.fills_in "password", :with => "test"
+          @webrat.checks "remember_me"
+          @webrat.clicks_button "Log in"
           @webrat.response.body.should match(/Logged in/)
         end
 
-        it \"should show the contact when submitted\" do
-          @webrat.visits \"/contacts/new\"
-          @webrat.fills_in \"Name\", :with => \"John\"
-          @webrat.fills_in \"Phone\", :with => \"555\"
-          @webrat.clicks_button \"Create\"
+        it "should show the contact when submitted" do
+          @webrat.visits "/contacts/new"
+          @webrat.fills_in "Name", :with => "John"
+          @webrat.fills_in "Phone", :with => "555"
+          @webrat.clicks_button "Create"
           @webrat.response.body.should match(/John/)
         end
 
@@ -111,14 +112,13 @@ Webrat is Test::Unit based, but is getting strong support from Rspec maintainer 
 
 
       def login_integration_user
-        @webrat.visits \"/login\"
-        @webrat.fills_in \"login\", :with => \"jackie\"
-        @webrat.fills_in \"password\", :with => \"test\"
-        @webrat.clicks_button \"Log in\"
+        @webrat.visits "/login"
+        @webrat.fills_in "login", :with => "jackie"
+        @webrat.fills_in "password", :with => "test"
+        @webrat.clicks_button "Log in"
       end
     end
-
-
+```
 
 I had a tough time getting these examples to pass.  For newbie types, remember that your test database is totally at the mercy of your fixtures.  Fixture data *replaces* data that was written in during migrations.  I had to break out the mysql console to figure out why my admin user wasn't available.  The solution, as you can see above, was to assign an administrative role to one of the users from my fixtures before running the test sequence.
 

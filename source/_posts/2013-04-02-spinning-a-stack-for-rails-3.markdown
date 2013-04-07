@@ -10,21 +10,23 @@ categories:
 Use edge rails.  Since the pre-release gem, mostly they are fixing bugs and cleaning the codebase.  That means that, odds are, an edge checkout is likely to be cleaner and more bug-free than the pre-release gem.
 
 Wrapping my head around bundler took a couple of hours, during which I made some significant detours back to doing things the old-fashioned way and checking out my gems as plugins in order to use a 'rails3' branch.  Turns out, this is totally unnecessary.  To use the rails3 branch of a gem from github, add the following to your rakefile:
+``` ruby
 	gem "factory_girl",  :git => "git://github.com/thoughtbot/factory_girl.git", :branch => "rails3"
+```
 
 `bundle install` will then checkout, branch, and embed this gem for you.  bundler is not just a gem manager, it's a dependencies manager.  I have high hopes to see how the community will take advantage of this shift.
 If you wonder "where are my gems", the ones you had already installed stay in your system folder.  New gems downloaded by bundler are placed under a .bundle folder in your user home folder.
 One thing to note, command-line utilities like compass still need to be gem installed to your system, along with any dependencies.  The bundled gems are available within the ruby runtime but not necessarily in the environment.
 
 Mongrel doesn't seem to run in development mode at the moment.  To get it going, you'll need to add these lines to your Gemfile:
-
+``` ruby
 	group :mongrel do
 		gem "mongrel"
 		gem "cgi_multipart_eof_fix"
 		gem "fastthread"
 		gem "mongrel_experimental"
 	end
-
+```
 Authentication:
 
 Clearance appears to not be ready for rails 3, due to a number of dependency issues.  I'm a big fan of outsourcing to Rack, so when I ran into [devise](http://github.com/plataformatec/devise), I was intrigued.  Big points for the generators working out of the box with Rails 3.  One oddity was that it used deprecated methods in the config/initializers/session_store.rb, but this may be the cost of Rails 2/3 support.  I really love the idea of being able to attach authenticatability, and all the supporting functionality implied with that, to multiple classes in your app.  Rather that having to keep track of whether a controller is for admins or organizers, I can have the code declare `authenticate_admin!` and `authenticate_organizer!`.  Woot.

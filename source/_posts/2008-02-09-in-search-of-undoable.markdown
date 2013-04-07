@@ -23,7 +23,7 @@ So it surprises me that there's not an obvious undo pattern floating around the 
 So far full versioning seems like overkill, and acts_as_paranoid hasn't been updated to be compatible with Rails 1.2, much less 2.0.2.  So I'm on my own taking the undo helper and adding in some custom code.
 
 First, we need something to deal with deletion.  I put together this little is_undeletable plugin.  I opted to leave the destroy method as-is and create a #delete method that marks the model as deleted in the database.  Also this depends on the has_finder gem to create a selector.  So the idea is, whenever you doing a find for display purposes, you have to call `Contact.visible.find`.
-
+``` ruby
     class ActiveRecord::Base
       def self.is_undeletable
         if self.column_names.include? 'deleted_at'
@@ -57,14 +57,16 @@ First, we need something to deal with deletion.  I put together this little is_u
       end
 
     end
-
+```
 
 Now we can enable models to be undeleteable with the following code:
+``` ruby
     class OrangeWhip << ActiveRecord::Base
       is_undeletable
     end
-
+```
 and your controllers will need a new restore method:
+``` ruby
       # PUT /orange_whips/1/restore
       def restore
         @orange_whip = OrangeWhip.find(params[:id])
@@ -82,9 +84,9 @@ and your controllers will need a new restore method:
           format.json { head :ok }
         end
       end
-
+```
 In case you are following along at home, here's a section of the integration spec I wrote for undoing restoration:
-
+``` ruby
     it "should undo restoration" do
       post :create, :orange_whip => { :order_qty => "3" }
       @orange_whip = assigns[:orange_whip]
@@ -98,9 +100,10 @@ In case you are following along at home, here's a section of the integration spe
         send undo[:url][:method], undo[:url][:action].to_sym, undo[:url]
       end
     end
-
+```
 
 One behavior I discoverd in undo_helper is that it only accepts one level of Hashing in its arguments.  All values get .to_s called on them, which turns hashes into an unpredictable mess.  I was hoping to avoid dealing with versioning by saving object state to the undo stack, like so:
+``` ruby
     def update
         @orange_whip = OrangeWhip.visible.find(params[:id])
         unless params[:undo]
@@ -112,9 +115,9 @@ One behavior I discoverd in undo_helper is that it only accepts one level of Has
         end
         ...etc....
     end
-
+```
 Trying this with my specced *undo!* method i get back this error: `undefined method ``stringify_keys!' for <String....` .  For now I'm working around that by setting the value of :orange_whip to JSON notation, then setting my spec to decode it before posting it back to the controller:
-
+``` ruby
     def update
       ...etc....
         undo.push( "Reverse changes to Beverage Order #{@orange_whip.order_qty}",
@@ -138,5 +141,5 @@ Trying this with my specced *undo!* method i get back this error: `undefined met
         send undo[:url][:method], undo[:url][:action].to_sym, undo_params
       end
     end
-
+```
 I did try writing my own encoding for the url parameters, but it introduced a lot of lines that were unneccessary.  It seems amazing to me that Rails doesn't have a Hash.to_params method built-in that would handle this.  I may be taking the very wrong approach to the whole problem.  Thoughts?
