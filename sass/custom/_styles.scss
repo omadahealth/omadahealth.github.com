@@ -1,2 +1,245 @@
 // This File is imported last, and will override other styles in the cascade
 // Add styles here to make changes without digging in too much
+
+/* menu specialness */
+
+body > header {
+  padding: 0;
+  height: 89px;
+}
+
+.menu a, .menu li {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+#menu {
+  background: #4c5557;
+  height: 89px;
+  position: fixed;
+  margin:0 auto;
+  z-index: 500;
+  font-family: "brandon-grotesque", Arial, Helvetica, san-serif;
+  font-weight: 600;
+}
+
+.clear {
+  clear: both;
+}
+
+#menu.scrolled {
+  height:60px;
+}
+
+#main-menu ul {
+  position: relative;
+}
+
+#main-menu ul li {
+  width: 261px;
+  display: inline-block;
+  background: #4c5557;
+}
+
+#main-menu ul li a {
+  text-align: center;
+  display:block;
+  font-size:14px;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 38px 60px 24px;
+}
+
+#main-menu ul li:hover, #main-menu ul li.current-menu-item, #main-menu ul li.current_page_parent {
+  background:#2b3032;
+}
+
+#main-menu #logo-item {
+  text-indent: -9999px;
+  top: 0px;
+  height: 120px;
+  width: 157px;
+  background: #f1783c;
+  padding:0px;
+  z-index: 105;
+  background:#f1783c url(/images/omada-big.png) top center no-repeat;
+}
+
+#main-menu #logo-item:hover {
+  background: #f1783c url(/images/omada-big-home.png) top center no-repeat;
+}
+
+#main-menu #logo-item a {
+  width:45px;
+  height: 35px;
+}
+
+#main-menu #logo-item.mini {
+  background: #f1783c url(/images/omada-big-o_02.png) top center no-repeat;  
+  width:157px;
+  height:89px;
+}
+
+#main-menu #logo-item.mini:hover {
+  background:#f1783c url(/images/omada-big-home_02.png)  top center no-repeat;     
+}
+
+#main-menu #logo-item.scrolled {
+  height:60px;
+}
+#main-menu #logo-item-mobile {
+  display: none;
+}
+
+nav[role=navigation] {
+  display: none;
+}
+
+
+/* Footer */
+
+body>footer {
+  padding: 0;
+  margin: 0;
+}
+
+#column-left {
+  width: 235px;
+  float: left;
+}
+#column-left-padder {
+  padding: 45px 80px;
+}
+#column-center {
+  float: left;
+  width: 610px;
+  text-transform: uppercase;
+}
+#column-center-padder {
+  padding: 45px 20px 20px 40px;
+}
+#column-right {
+  float: left;
+  width: 290px;
+}
+#copyright {
+  padding: 20px;
+  text-transform: uppercase;
+  text-align: center;
+  color: #ffffff;
+  font-size: 12px;
+  font-family: "brandon-grotesque", Arial, Helvetica, san-serif;
+  font-weight: 600;
+}
+#footer-logo {
+  background: #454d4f;
+  height: 130px;
+  width: 150px;
+  text-align: center;
+}
+#footer-logo img {
+  margin: 20px auto;
+}
+#column-center h4 {
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 0 0 5px 0;
+  margin: 0;
+}
+.site-map {
+  float: left;
+  width: 180px;
+}
+.social {
+  background: #454d4f;
+  width: 75px;
+  text-align: center;
+  height: 75px;
+  float: left;
+  margin: 75px 7px;
+}
+.social:hover {
+background-color: #394143;
+}
+.social img {
+  margin: 20px 0 0 0;
+}
+.site-map .menu ul, .site-map .menu li {
+  list-style: none;
+  margin: 0;
+  padding: 2px 0;
+  color: #ffffff;
+  font-size: 12px;
+  float: none;
+}
+.site-map .menu ul a, .site-map .menu a {
+  text-decoration: none;
+  color: #96a3a6;
+  font-size: 11px;
+  font-weight: 400;
+  font-family:"brandon-grotesque", Arial, Helvetica, san-serif;
+  line-height: 1.6em;
+}
+.site-map .menu {
+  padding: 0;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+  clear: both;
+  font-family: "brandon-grotesque", Arial, Helvetica, san-serif;
+        font-weight: 600;
+}
+
+@media screen and (max-width: 1200px) {
+  #main-menu .menu-item-std {
+    display: none;
+  }
+
+}
+@media screen and (max-width: 500px) {
+  #main-menu .menu-item {
+    display: none;
+  }
+
+  #menu {
+    position: relative;
+  }
+
+
+  #main-menu #logo-item-mobile {
+    display: inline-block;
+    height: 70px;
+    width: 60px;
+    text-indent: -9999px;
+    background: #f1783c;
+    padding:0px;
+    background: #f1783c url(/images/omada-big-o_02.png) top center no-repeat;  
+  }
+
+  #column-left {
+    display: none;
+  }
+
+  #column-center {
+    width: inherit;
+  }
+  #column-center-padder {
+    padding: 20px;
+  }
+
+  .site-map {
+    width: 130px;
+  }
+  #column-right {
+    display: none;
+  }
+
+  #site-map-3 {
+    display: none;
+  }
+}
+
+
